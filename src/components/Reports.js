@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Download, Search as SearchIcon, X as CancelIcon, Calendar as CalendarIcon } from 'lucide-react';
+import { Download, Search as SearchIcon, X as CancelIcon, Calendar as CalendarIcon, BarChart3, TrendingUp } from 'lucide-react';
 
 const Reports = ({ isDarkMode, inventory, salesDetails }) => {
   // Helper to get product info by id from current inventory
@@ -89,9 +89,55 @@ const Reports = ({ isDarkMode, inventory, salesDetails }) => {
   // }, [searchText, fromDate, toDate, salesDetails]);
 
   return (
-    <div className={`rounded-xl shadow-sm border p-6 transition-all duration-300 ${isDarkMode ? 'bg-gray-800 border-gray-700 shadow-gray-900/50' : 'bg-white border-gray-200 shadow-gray-200/50'}`}>
+    <div className={`group rounded-xl shadow-lg border p-6 transition-all duration-500 hover:shadow-2xl animate-fade-in ${isDarkMode ? 'bg-gradient-to-br from-gray-800 to-gray-900 border-gray-700 shadow-gray-900/50' : 'bg-gradient-to-br from-white to-gray-50 border-gray-200 shadow-gray-200/50'}`}>
+      
+      {/* Header Section */}
+      <div className="flex flex-col gap-4 mb-8">
+        <div className="flex items-center gap-3">
+          <div className={`p-3 rounded-xl ${isDarkMode ? 'bg-blue-500/20 text-blue-400' : 'bg-blue-100 text-blue-600'}`}>
+            <BarChart3 className="h-6 w-6" />
+          </div>
+          <div>
+            <h3 className={`text-2xl font-bold transition-colors duration-300 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Sales Reports & Analytics</h3>
+            <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Comprehensive sales data analysis and insights</p>
+          </div>
+        </div>
+        
+        {/* Quick Stats Row */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <div className={`p-4 rounded-xl border transition-all duration-300 hover:scale-105 ${isDarkMode ? 'bg-gray-700/50 border-gray-600' : 'bg-gray-50 border-gray-200'}`}>
+            <div className="flex items-center gap-3">
+              <TrendingUp className="h-5 w-5 text-green-500" />
+              <div>
+                <div className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Total Sales</div>
+                <div className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{salesDetails.length}</div>
+              </div>
+            </div>
+          </div>
+          <div className={`p-4 rounded-xl border transition-all duration-300 hover:scale-105 ${isDarkMode ? 'bg-gray-700/50 border-gray-600' : 'bg-gray-50 border-gray-200'}`}>
+            <div className="flex items-center gap-3">
+              <Download className="h-5 w-5 text-blue-500" />
+              <div>
+                <div className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Total Revenue</div>
+                <div className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>₹{salesDetails.reduce((sum, sale) => sum + Number(sale.revenue), 0).toLocaleString()}</div>
+              </div>
+            </div>
+          </div>
+          <div className={`p-4 rounded-xl border transition-all duration-300 hover:scale-105 ${isDarkMode ? 'bg-gray-700/50 border-gray-600' : 'bg-gray-50 border-gray-200'}`}>
+            <div className="flex items-center gap-3">
+              <CalendarIcon className="h-5 w-5 text-purple-500" />
+              <div>
+                <div className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>Date Range</div>
+                <div className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>All Time</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Search and Export Section */}
       <div className="flex flex-col gap-4 mb-6 sm:flex-row sm:items-center sm:justify-between">
-        <h3 className={`text-lg font-semibold transition-colors duration-300 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>All Sales Report</h3>
+        <h4 className={`text-lg font-semibold transition-colors duration-300 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Detailed Sales Data</h4>
         <form onSubmit={handleSearch} className="flex flex-wrap gap-3 items-center justify-center flex-1 sm:mx-6">
           <input
             type="text"

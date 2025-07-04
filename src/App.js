@@ -9,6 +9,7 @@ import InventoryManager from './components/InventoryManager';
 import InventorySidebar from './components/InventorySidebar';
 import SalesDetails from './components/SalesDetails';
 import Reports from './components/Reports';
+import LoadingScreen from './components/LoadingScreen';
 import { 
   ShoppingCart, 
   DollarSign, 
@@ -22,6 +23,13 @@ function App() {
   const [sidebarMode, setSidebarMode] = useState('single'); // 'single' or 'multi'
   const [inventory, setInventory] = useState([]);
   const [salesDetails, setSalesDetails] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Simulate initial loading
+  React.useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 5000);
+    return () => clearTimeout(timer);
+  }, []);
 
   // --- Dashboard Dynamic Data ---
   // Today's date in yyyy-mm-dd
@@ -102,11 +110,16 @@ function App() {
   };
   const handleCloseSidebar = () => setSidebarOpen(false);
 
+  // Show loading screen
+  if (isLoading) {
+    return <LoadingScreen isDarkMode={isDarkMode} />;
+  }
+
   return (
-    <div className={`min-h-screen transition-colors duration-300 ${
+    <div className={`min-h-screen transition-colors duration-300 animate-fade-in ${
       isDarkMode 
-        ? 'bg-gray-900 text-white' 
-        : 'bg-gray-50 text-gray-900'
+        ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white' 
+        : 'bg-gradient-to-br from-gray-50 via-white to-blue-50 text-gray-900'
     }`}>
       <Header 
         onThemeToggle={toggleTheme} 
